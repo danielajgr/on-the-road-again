@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:sensors_plus/sensors_plus.dart';
 
+=======
+import 'game.dart';
+import 'end.dart'; // Import the EndPage
+import 'package:sensors_plus/sensors_plus.dart';
+
+// Found landscape orientation here: https://www.geeksforgeeks.org/flutter-managing-device-orientation/
+>>>>>>> origin/main
 void main() {
   runApp(const MyApp());
 }
@@ -8,11 +16,15 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+<<<<<<< HEAD
   // This widget is the root of your application.
+=======
+>>>>>>> origin/main
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+<<<<<<< HEAD
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -33,6 +45,19 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+=======
+
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 17, 184, 255)),
+        useMaterial3: true,
+      ),
+      //Where the pages take you
+      routes: {
+        '/': (context) => const MyHomePage(title: 'Arkansas'),
+        '/game': (context) => const GamePage(), 
+        '/end': (context) => const EndPage(),   
+      },
+>>>>>>> origin/main
     );
   }
 }
@@ -40,6 +65,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
+<<<<<<< HEAD
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -48,6 +74,8 @@ class MyHomePage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+=======
+>>>>>>> origin/main
 
   final String title;
 
@@ -56,6 +84,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+<<<<<<< HEAD
   int _counter = 0;
 
   void _incrementCounter() {
@@ -103,19 +132,72 @@ class _MyHomePageState extends State<MyHomePage> {
           //
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
+=======
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        
+        title: Center(
+          child: Text(
+            widget.title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 60, 
+              color: Color.fromARGB(255, 157, 38, 30),
+              fontFamily: 'Times New Roman', 
+              fontWeight: FontWeight.bold, 
+            ),
+          ),
+        ),
+      ),
+      body: Center(
+
+        child: Column(
+          
+>>>>>>> origin/main
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
+<<<<<<< HEAD
               'You have pushed the button this many times:',
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+=======
+              'On the Road',
+              style: TextStyle(
+                fontSize: 80,
+                fontFamily: 'Times New Roman', 
+                fontWeight: FontWeight.bold,
+                ),
+            ),
+            const Text(
+              'Again!!!',
+              style: TextStyle(
+                fontSize: 80,
+                fontFamily: 'Times New Roman', 
+              fontWeight: FontWeight.bold,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // go to game screen
+                Navigator.pushNamed(context, '/game');
+              },
+              child: const Text('Play'), 
+>>>>>>> origin/main
             ),
           ],
         ),
       ),
+<<<<<<< HEAD
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -124,3 +206,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+=======
+    );
+  }
+}
+>>>>>>> origin/main

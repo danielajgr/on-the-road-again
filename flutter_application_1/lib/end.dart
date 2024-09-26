@@ -29,7 +29,7 @@ class EndPage extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
+      /*body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -70,7 +70,7 @@ class EndPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ),*/
     );
   }
 }

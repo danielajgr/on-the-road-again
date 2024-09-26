@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'main.dart'; 
+import 'package:flutter_application_1/widgets/pointCounter.dart';
+import 'main.dart';
 
-import 'package:flutter/services.dart'; 
+import 'package:flutter/services.dart';
 
 class EndPage extends StatelessWidget {
   const EndPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    PointCounter pointCounter;
+    int points = pointCounter.getPoints();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Center(
-          child: 
-          Text(
+          child: Text(
             'You Lost!!!',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -31,14 +33,14 @@ class EndPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Your Score was: ',
+              'Your Score was: ${points}',
               style: TextStyle(fontSize: 50),
             ),
             const Text(
               'Do you want to go play again?',
               style: TextStyle(fontSize: 24),
             ),
-            const SizedBox(height: 20), 
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -47,13 +49,15 @@ class EndPage extends StatelessWidget {
                     // back to the main page
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Arkansas')),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const MyHomePage(title: 'Arkansas')),
                       (Route<dynamic> route) => false,
                     );
                   },
                   child: const Text('Yes'),
                 ),
-                const SizedBox(width: 20), 
+                const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Close the app

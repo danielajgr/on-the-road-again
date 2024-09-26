@@ -8,54 +8,63 @@ import 'package:sensors_plus/sensors_plus.dart';
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
 
-  
   @override
   _GamePageState createState() => _GamePageState();
 }
 
 class _GamePageState extends State<GamePage> {
+  PointCounter pointCounter = PointCounter();
+  int points = 0;
+
   void startPoints() {
-    PointCounter pointCounter;
-    pointCounter = PointCounter();
     pointCounter.reset();
     pointCounter.start();
   }
-  double lineOffset= 0;
+
+  double lineOffset = 0;
   double bushOffset = 0;
-  Timer? _timer; 
+  Timer? _timer;
   static const int _carRows = 30;
   static const int _carColumns = 50;
   static const double _carCellSize = 10.0;
 
-  double _yAxis = 0.0; 
+  double _yAxis = 0.0;
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
-
 
 //median controller
   @override
   void initState() {
     super.initState();
+    startPoints();
     _streamSubscriptions.add(
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
           setState(() {
-            _yAxis = event.y; 
+            _yAxis = event.y;
           });
         },
       ),
     );
     _timer = Timer.periodic(const Duration(milliseconds: 75), (timer) {
-      if (mounted) { 
+      if (mounted) {
         setState(() {
           lineOffset += 10;
           bushOffset += 10;
-          
+
           if (lineOffset >= 325) {
-            lineOffset = 0; 
+            lineOffset = 0;
           }
-          if (bushOffset >=525 ) {
+          if (bushOffset >= 525) {
             bushOffset = 0;
           }
+        });
+      }
+    });
+    //timer for updating point display
+    Timer.periodic(Duration(milliseconds: 500), (Timer timer) {
+      if (mounted) {
+        setState(() {
+          points = pointCounter.getPoints();
         });
       }
     });
@@ -63,8 +72,9 @@ class _GamePageState extends State<GamePage> {
 
   @override
   void dispose() {
-    _timer?.cancel(); 
+    _timer?.cancel();
     super.dispose();
+    pointCounter.stop();
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
     }
@@ -73,7 +83,6 @@ class _GamePageState extends State<GamePage> {
 //game scene
   @override
   Widget build(BuildContext context) {
-    startPoints();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Game Page'),
@@ -84,37 +93,37 @@ class _GamePageState extends State<GamePage> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            
             children: <Widget>[
               // road
               Expanded(
                 child: Container(
-                  width: 600, 
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 68, 68, 68), 
+                  width: 600,
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 68, 68, 68),
                     //add borders
                     border: Border(
-                      left: BorderSide(width: 10.0, color: Colors.black), 
+                      left: BorderSide(width: 10.0, color: Colors.black),
                       right: BorderSide(width: 10.0, color: Colors.black),
-                      bottom: BorderSide(width: 10.0, color: Colors.black), 
+                      bottom: BorderSide(width: 10.0, color: Colors.black),
                     ),
                   ),
 
                   //yellow rects
                   child: Stack(
-                    children: [SizedBox(
-            height: _carRows * _carCellSize,
-            width: _carColumns * _carCellSize,
-            child: Car(
-              rows: _carRows,
-              columns: _carColumns,
-              cellSize: _carCellSize,
-              yAxis: _yAxis, 
-            ),
-          ),
+                    children: [
+                      SizedBox(
+                        height: _carRows * _carCellSize,
+                        width: _carColumns * _carCellSize,
+                        child: Car(
+                          rows: _carRows,
+                          columns: _carColumns,
+                          cellSize: _carCellSize,
+                          yAxis: _yAxis,
+                        ),
+                      ),
                       Positioned(
                         top: lineOffset,
-                        left: 290, // 
+                        left: 290, //
                         child: _buildLine(),
                       ),
                       Positioned(
@@ -124,17 +133,17 @@ class _GamePageState extends State<GamePage> {
                       ),
                       Positioned(
                         top: lineOffset - 400,
-                        left: 290, 
+                        left: 290,
                         child: _buildLine(),
                       ),
                       Positioned(
                         top: lineOffset - 600,
-                        left: 290, 
+                        left: 290,
                         child: _buildLine(),
                       ),
                       Positioned(
                         top: lineOffset - 800,
-                        left: 290, 
+                        left: 290,
                         child: _buildLine(),
                       ),
                       Positioned(
@@ -144,42 +153,38 @@ class _GamePageState extends State<GamePage> {
                       ),
                       Positioned(
                         top: bushOffset - 400,
-                        left: 400, 
+                        left: 400,
                         child: Circle(),
                       ),
                       Positioned(
                         top: bushOffset - 600,
-                        left: 50, 
+                        left: 50,
                         child: Circle(),
                       ),
                       Positioned(
                         top: bushOffset - 800,
-                        left: 50, 
+                        left: 50,
                         child: Circle(),
                       ),
                     ],
                   ),
-
-                  
-
-
                 ),
               ),
               const SizedBox(height: 20),
               //test button to go to end.dart
               ElevatedButton(
-                /*
-                if obstacle.checkHit() = true then end, if not then continue
-                */
+                //if obstacle.checkHit() = true then end, if not then continue
                 onPressed: () {
-                  Navigator.pushNamed(context, '/end');
+                  Navigator.pushNamed(context, '/end', arguments: pointCounter);
                 },
                 child: const Text('End'),
               ),
-              const Text(
-                'point score',
-                style: TextStyle(fontSize: 25),
-              )
+              const SizedBox(height: 20),
+              // Display the points below the button
+              Text(
+                'Point Score: $points',
+                style: const TextStyle(fontSize: 24, color: Colors.white),
+              ),
             ],
           ),
         ),
@@ -190,8 +195,8 @@ class _GamePageState extends State<GamePage> {
   // create a yellow median
   Widget _buildLine() {
     return Container(
-      width: 20, 
-      height: 100, 
+      width: 20,
+      height: 100,
       color: Colors.yellow,
     );
   }
@@ -201,9 +206,9 @@ class _GamePageState extends State<GamePage> {
     return Container(
       width: 70,
       height: 70,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color.fromARGB(255, 35, 59, 35),
+        color: Color.fromARGB(255, 35, 59, 35),
       ),
     );
   }

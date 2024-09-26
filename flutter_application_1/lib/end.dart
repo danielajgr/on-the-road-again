@@ -3,6 +3,9 @@ import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'main.dart';
 
 import 'package:flutter/services.dart';
+/*
+
+*/
 
 class EndPage extends StatelessWidget {
   const EndPage({Key? key}) : super(key: key);
@@ -29,13 +32,13 @@ class EndPage extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
       ),
-      /*body: Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               'Your Score was: $points',
-              style: TextStyle(fontSize: 50),
+              style: const TextStyle(fontSize: 50),
             ),
             const Text(
               'Do you want to go play again?',
@@ -70,7 +73,7 @@ class EndPage extends StatelessWidget {
             ),
           ],
         ),
-      ),*/
+      ),
     );
   }
 }

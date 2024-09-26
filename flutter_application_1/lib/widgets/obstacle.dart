@@ -11,6 +11,10 @@ class Obstacle {
     hit = true;
   }
 
+  bool checkHit() {
+    return hit;
+  }
+
   void resetObstacles() {
     hit = false;
   }

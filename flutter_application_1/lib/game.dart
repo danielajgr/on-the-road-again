@@ -99,9 +99,33 @@ class _GamePageState extends State<GamePage> {
         title: const Text('Game Page'),
         automaticallyImplyLeading: false, // get rid of back button
       ),
-      body: Container(
-        color: Colors.green,
-        child: Center(
+      body: Stack(
+        children: [
+          Container(color: Colors.green),
+
+          Positioned(
+            top: bushOffset - 600,
+            left: 40, 
+            child: Circle(), 
+          ),
+          Positioned(
+            top: bushOffset - 1200,
+            left: 40, 
+            child: Circle(), 
+          ),
+          Positioned(
+            top: bushOffset - 600,
+            left: 800, 
+            child: Circle(), 
+          ),
+          Positioned(
+            top: bushOffset - 1200,
+            left: 800, 
+            child: Circle(), 
+          ),
+
+
+        Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -179,6 +203,7 @@ class _GamePageState extends State<GamePage> {
             ],
           ),
         ),
+        ],
     ),
   );
 }

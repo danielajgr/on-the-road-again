@@ -50,10 +50,17 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         
-        title: Center(
-          child: Text(
+        title: Stack(
+          alignment: Alignment.center,
+            children: [
+              Align(
+                  alignment: Alignment.center,
+                  child: 
+
+            Text(
             widget.title,
-            textAlign: TextAlign.center,
+          
+
             style: const TextStyle(
               fontSize: 60, 
               color: Color.fromARGB(255, 157, 38, 30),
@@ -61,6 +68,42 @@ class _MyHomePageState extends State<MyHomePage> {
               fontWeight: FontWeight.bold, 
             ),
           ),
+          ),
+          Positioned(
+            left:10,
+            child: Container(
+              width: 40,
+              height: 40,
+               color: Colors.yellow,
+               child: const Center(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      
+                  Text(
+                  '7',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                RotatedBox(
+                  quarterTurns: 1, 
+                  child: Text(
+                      '2024',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+  ),
+
+
+                ],
+               ),
+            ),
+  ),)
+  ],
         ),
       ),
       body: Center(
@@ -73,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'On the Road',
               style: TextStyle(
-                fontSize: 80,
+                fontSize: 70,
                 fontFamily: 'Times New Roman', 
                 fontWeight: FontWeight.bold,
                 ),
@@ -81,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'Again!!!',
               style: TextStyle(
-                fontSize: 80,
+                fontSize: 70,
                 fontFamily: 'Times New Roman', 
               fontWeight: FontWeight.bold,
               ),
@@ -92,7 +135,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pushNamed(context, '/game');
               },
               child: const Text('Play'), 
-            ),
+            ),const Text(
+              'The Natural State',
+              style: TextStyle(
+                fontSize: 40,
+                color: Color.fromARGB(255, 157, 38, 30),
+                fontFamily: 'Times New Roman', 
+                fontWeight: FontWeight.bold,
+                ),
+            )
           ],
         ),
       ),

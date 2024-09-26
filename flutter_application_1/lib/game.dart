@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/car.dart';
 import 'dart:async';
+
+import 'package:sensors_plus/sensors_plus.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -12,12 +15,27 @@ class _GamePageState extends State<GamePage> {
   double lineOffset= 0;
   double bushOffset = 0;
   Timer? _timer; 
+  static const int _carRows = 30;
+  static const int _carColumns = 50;
+  static const double _carCellSize = 10.0;
+
+  double _yAxis = 0.0; 
+  final _streamSubscriptions = <StreamSubscription<dynamic>>[];
 
 
 //median controller
   @override
   void initState() {
     super.initState();
+    _streamSubscriptions.add(
+      accelerometerEvents.listen(
+        (AccelerometerEvent event) {
+          setState(() {
+            _yAxis = event.y; 
+          });
+        },
+      ),
+    );
     _timer = Timer.periodic(const Duration(milliseconds: 75), (timer) {
       if (mounted) { 
         setState(() {
@@ -40,6 +58,9 @@ class _GamePageState extends State<GamePage> {
   void dispose() {
     _timer?.cancel(); 
     super.dispose();
+    for (final subscription in _streamSubscriptions) {
+      subscription.cancel();
+    }
   }
 
 //game scene
@@ -51,6 +72,7 @@ class _GamePageState extends State<GamePage> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            
             children: <Widget>[
               Expanded(
                 child: Container(
@@ -67,7 +89,16 @@ class _GamePageState extends State<GamePage> {
 
                   //yellow rects
                   child: Stack(
-                    children: [
+                    children: [SizedBox(
+            height: _carRows * _carCellSize,
+            width: _carColumns * _carCellSize,
+            child: Car(
+              rows: _carRows,
+              columns: _carColumns,
+              cellSize: _carCellSize,
+              yAxis: _yAxis, 
+            ),
+          ),
                       Positioned(
                         top: lineOffset,
                         left: 290, // 

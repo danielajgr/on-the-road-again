@@ -17,15 +17,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
 
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 17, 184, 255)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 17, 184, 255)),
         useMaterial3: true,
       ),
       //Where the pages take you
       routes: {
         '/': (context) => const MyHomePage(title: 'Arkansas'),
-        '/game': (context) => const GamePage(),
-        '/end': (context) => const EndPage(),
+        '/game': (context) => const GamePage(), 
+        '/end': (context) => const EndPage(),   
       },
     );
   }
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
+
   final String title;
 
   @override
@@ -41,26 +41,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        
         title: Center(
           child: Text(
             widget.title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 60,
+              fontSize: 60, 
               color: Color.fromARGB(255, 157, 38, 30),
-              fontFamily: 'Times New Roman',
-              fontWeight: FontWeight.bold,
+              fontFamily: 'Times New Roman', 
+              fontWeight: FontWeight.bold, 
             ),
           ),
         ),
       ),
       body: Center(
+
         child: Column(
+          
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -68,16 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
               'On the Road',
               style: TextStyle(
                 fontSize: 80,
-                fontFamily: 'Times New Roman',
+                fontFamily: 'Times New Roman', 
                 fontWeight: FontWeight.bold,
-              ),
+                ),
             ),
             const Text(
               'Again!!!',
               style: TextStyle(
                 fontSize: 80,
-                fontFamily: 'Times New Roman',
-                fontWeight: FontWeight.bold,
+                fontFamily: 'Times New Roman', 
+              fontWeight: FontWeight.bold,
               ),
             ),
             ElevatedButton(
@@ -85,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // go to game screen
                 Navigator.pushNamed(context, '/game');
               },
-              child: const Text('Play'),
+              child: const Text('Play'), 
             ),
           ],
         ),

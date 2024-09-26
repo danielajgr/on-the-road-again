@@ -9,7 +9,8 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  double lineOffset = 0;
+  double lineOffset= 0;
+  double bushOffset = 0;
   Timer? _timer; 
 
 
@@ -21,8 +22,13 @@ class _GamePageState extends State<GamePage> {
       if (mounted) { 
         setState(() {
           lineOffset += 10;
-          if (lineOffset >= 200) {
+          bushOffset += 10;
+          
+          if (lineOffset >= 325) {
             lineOffset = 0; 
+          }
+          if (bushOffset >=525 ) {
+            bushOffset = 0;
           }
         });
       }
@@ -36,6 +42,7 @@ class _GamePageState extends State<GamePage> {
     super.dispose();
   }
 
+//game scene
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,8 +93,32 @@ class _GamePageState extends State<GamePage> {
                         left: 290, 
                         child: _buildLine(),
                       ),
+                      Positioned(
+                        top: bushOffset - 200,
+                        left: 400,
+                        child: Circle(),
+                      ),
+                      Positioned(
+                        top: bushOffset - 400,
+                        left: 400, 
+                        child: Circle(),
+                      ),
+                      Positioned(
+                        top: bushOffset - 600,
+                        left: 50, 
+                        child: Circle(),
+                      ),
+                      Positioned(
+                        top: bushOffset - 800,
+                        left: 50, 
+                        child: Circle(),
+                      ),
                     ],
                   ),
+
+                  
+
+
                 ),
               ),
               const SizedBox(height: 20),
@@ -110,6 +141,18 @@ class _GamePageState extends State<GamePage> {
       width: 20, 
       height: 100, 
       color: Colors.yellow,
+    );
+  }
+
+  //create a bush
+  Widget Circle() {
+    return Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: const Color.fromARGB(255, 35, 59, 35),
+      ),
     );
   }
 }

@@ -10,7 +10,7 @@ class EndPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PointCounter pointCounter;
-    int points = pointCounter.getPoints();
+    //int points = pointCounter.getPoints();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -28,7 +28,7 @@ class EndPage extends StatelessWidget {
         ),
         automaticallyImplyLeading: false,
       ),
-      body: Center(
+      /*body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -69,7 +69,7 @@ class EndPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ),*/
     );
   }
 }

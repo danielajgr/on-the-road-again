@@ -9,8 +9,9 @@ class EndPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PointCounter pointCounter;
-    //int points = pointCounter.getPoints();
+    final PointCounter pointCounter =
+        ModalRoute.of(context)!.settings.arguments as PointCounter;
+    int points = pointCounter.getPoints();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -32,8 +33,8 @@ class EndPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Your Score was: ${points}',
+            Text(
+              'Your Score was: $points',
               style: TextStyle(fontSize: 50),
             ),
             const Text(

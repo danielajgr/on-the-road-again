@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/car.dart';
+import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'dart:async';
 
 import 'package:sensors_plus/sensors_plus.dart';
@@ -7,11 +8,18 @@ import 'package:sensors_plus/sensors_plus.dart';
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
 
+  
   @override
   _GamePageState createState() => _GamePageState();
 }
 
 class _GamePageState extends State<GamePage> {
+  void startPoints() {
+    PointCounter pointCounter;
+    pointCounter = PointCounter();
+    pointCounter.reset();
+    pointCounter.start();
+  }
   double lineOffset= 0;
   double bushOffset = 0;
   Timer? _timer; 
@@ -53,7 +61,6 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
-//handle set state eorr when game restarts
   @override
   void dispose() {
     _timer?.cancel(); 
@@ -66,7 +73,12 @@ class _GamePageState extends State<GamePage> {
 //game scene
   @override
   Widget build(BuildContext context) {
+    startPoints();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Game Page'),
+        automaticallyImplyLeading: false, // get rid of back button
+      ),
       body: Container(
         color: Colors.green,
         child: Center(
@@ -74,6 +86,7 @@ class _GamePageState extends State<GamePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             
             children: <Widget>[
+              // road
               Expanded(
                 child: Container(
                   width: 600, 
@@ -153,12 +166,20 @@ class _GamePageState extends State<GamePage> {
                 ),
               ),
               const SizedBox(height: 20),
+              //test button to go to end.dart
               ElevatedButton(
+                /*
+                if obstacle.checkHit() = true then end, if not then continue
+                */
                 onPressed: () {
                   Navigator.pushNamed(context, '/end');
                 },
                 child: const Text('End'),
               ),
+              const Text(
+                'point score',
+                style: TextStyle(fontSize: 25),
+              )
             ],
           ),
         ),

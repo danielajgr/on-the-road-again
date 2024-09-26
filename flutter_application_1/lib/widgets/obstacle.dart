@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Obstacle {
-  Obstacle({required this.type, required this.hitbox});
+  Obstacle({required this.type, required this.hitbox, required this.color});
 
-  final Rect hitbox;
+  Rect hitbox;
   bool hit = false;
   final String type;
+  Color color = Color.fromARGB(197, 255, 0, 0);
 
   void onCollision() {
     hit = true;
@@ -13,9 +14,5 @@ class Obstacle {
 
   bool checkHit() {
     return hit;
-  }
-
-  void resetObstacles() {
-    hit = false;
   }
 }

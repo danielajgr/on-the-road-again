@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/objects/game_state.dart';
 import 'package:flutter_application_1/widgets/car.dart';
 import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'dart:async';
@@ -13,13 +14,9 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
+  late GameState gameState;
   PointCounter pointCounter = PointCounter();
   int points = 0;
-
-  void startPoints() {
-    pointCounter.reset();
-    pointCounter.start();
-  }
 
   double lineOffset = 0;
   double bushOffset = 0;
@@ -36,6 +33,7 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     super.initState();
     startPoints();
+    gameState = GameState(30, 50, handleGameOver);
     _streamSubscriptions.add(
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
@@ -70,6 +68,17 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
+  //end game
+  void handleGameOver() {
+    pointCounter.stop();
+    Navigator.pushNamed(context, '/end', arguments: pointCounter);
+  }
+
+  void startPoints() {
+    pointCounter.reset();
+    pointCounter.start();
+  }
+
   @override
   void dispose() {
     _timer?.cancel();
@@ -84,10 +93,6 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Game Page'),
-        automaticallyImplyLeading: false, // get rid of back button
-      ),
       body: Container(
         color: Colors.green,
         child: Center(
@@ -175,12 +180,12 @@ class _GamePageState extends State<GamePage> {
               ElevatedButton(
                 //if obstacle.checkHit() = true then end, if not then continue
                 onPressed: () {
-                  Navigator.pushNamed(context, '/end', arguments: pointCounter);
+                  handleGameOver();
                 },
                 child: const Text('End'),
               ),
               const SizedBox(height: 20),
-              // Display the points below the button
+              // Display points below the test button
               Text(
                 'Point Score: $points',
                 style: const TextStyle(fontSize: 24, color: Colors.white),

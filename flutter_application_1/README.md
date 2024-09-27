@@ -1,16 +1,16 @@
-# flutter_application_1
+# On the Road Again
+# Daniela, Sadie, and Jack
 
-A new Flutter project.
 
-## Getting Started
+Who is the audience for this app?
+On the Road Again is intended for driving enthusiasts who are looking
+for a form of entertainment or looking for a way to blow off some steam
 
-This project is a starting point for a Flutter application.
+What the app does?
+On the Road Again is a driving simulator from the brids eye view where the user has to 
+turn the vehile (tilt the phone) to avoid the vehicles that are on the road
 
-A few resources to get you started if this is your first Flutter project:
+Why the app is useful?
+This app is useful to have some fun, pass time, and arguably could be a hobby for some 
+people
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/objects/game_state.dart';
 import 'package:flutter_application_1/widgets/car.dart';
+import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'dart:async';
 
 import 'package:sensors_plus/sensors_plus.dart';
@@ -12,7 +14,11 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  double lineOffset= 0;
+  late GameState gameState;
+  PointCounter pointCounter = PointCounter();
+  int points = 0;
+
+  double lineOffset = 0;
   double bushOffset = 0;
   Timer? _timer; 
   static const int _carRows = 30;
@@ -27,6 +33,8 @@ class _GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
+    startPoints();
+    gameState = GameState(30, 50, handleGameOver);
     _streamSubscriptions.add(
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
@@ -45,7 +53,7 @@ class _GamePageState extends State<GamePage> {
           if (lineOffset >= 325) {
             lineOffset = 0; 
           }
-          if (bushOffset >=525 ) {
+          if (bushOffset >= 1000) {
             bushOffset = 0;
           }
         });
@@ -53,11 +61,17 @@ class _GamePageState extends State<GamePage> {
     });
   }
 
+  //end game
   void handleGameOver() {
-    Navigator.pushNamed(context, '/end');
+    pointCounter.stop();
+    Navigator.pushNamed(context, '/end', arguments: pointCounter);
   }
 
-//handle set state eorr when game restarts
+  void startPoints() {
+    pointCounter.reset();
+    pointCounter.start();
+  }
+
   @override
   void dispose() {
     _timer?.cancel(); 
@@ -71,110 +85,113 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Stack(
         children: [
           Container(color: Colors.green),
-
           Positioned(
             top: bushOffset - 600,
-            left: 40, 
-            child: Circle(), 
+            left: 40,
+            child: Circle(),
           ),
           Positioned(
             top: bushOffset - 1200,
-            left: 40, 
-            child: Circle(), 
+            left: 40,
+            child: Circle(),
           ),
           Positioned(
             top: bushOffset - 600,
-            left: 800, 
-            child: Circle(), 
+            left: 800,
+            child: Circle(),
           ),
           Positioned(
             top: bushOffset - 1200,
-            left: 800, 
-            child: Circle(), 
+            left: 800,
+            child: Circle(),
           ),
-
-
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // road
-              Expanded(
-                child: Container(
-                  width: 600, 
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 68, 68, 68), 
-                    //add borders
-                    border: Border(
-                      left: BorderSide(width: 10.0, color: Colors.black),
-                      right: BorderSide(width: 10.0, color: Colors.black),
-                      bottom: BorderSide(width: 10.0, color: Colors.black),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // road
+                Expanded(
+                  child: Container(
+                    width: 600,
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 68, 68, 68),
+                      //add borders
+                      border: Border(
+                        left: BorderSide(width: 10.0, color: Colors.black),
+                        right: BorderSide(width: 10.0, color: Colors.black),
+                        bottom: BorderSide(width: 10.0, color: Colors.black),
+                      ),
+                    ),
+                    //sort out brackets and parentheses
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: _carRows * _carCellSize,
+                          width: _carColumns * _carCellSize,
+                          child: Car(
+                            rows: _carRows,
+                            columns: _carColumns,
+                            cellSize: _carCellSize,
+                            yAxis: _yAxis,
+                          ),
+                        ),
+                        Positioned(
+                          top: lineOffset,
+                          left: 290, //
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 210,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 400,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 600,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 800,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                            top: gameState.obstacle?.hitbox.top,
+                            left: gameState.obstacle?.hitbox.left,
+                            child: Container(
+                              width: gameState.obstacle?.hitbox.width,
+                              height: gameState.obstacle?.hitbox.height,
+                              color: gameState.obstacle?.color,
+                            )),
+                      ],
                     ),
                   ),
-                  //sort out brackets and parentheses
-                  child: Stack(
-                    children: [SizedBox(
-            height: _carRows * _carCellSize,
-            width: _carColumns * _carCellSize,
-            child: Car(
-              rows: _carRows,
-              columns: _carColumns,
-              cellSize: _carCellSize,
-              yAxis: _yAxis, 
+                ),
+                const SizedBox(height: 20),
+                //test button to go to end.dart
+                ElevatedButton(
+                  //handle obstacle
+                  onPressed: () {
+                    handleGameOver();
+                  },
+                  child: const Text('End'),
+                ),
+                
+              ],
             ),
           ),
-                      Positioned(
-                        top: lineOffset,
-                        left: 290, // 
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 210,
-                        left: 290,
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 400,
-                        left: 290, 
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 600,
-                        left: 290, 
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 800,
-                        left: 290, 
-                        child: _buildLine(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              //test button to go to end.dart
-              ElevatedButton(
-                /*
-                if obstacle.checkHit() = true then end, if not then continue
-                */
-                onPressed: () {
-                  handleGameOver();
-                },
-                child: const Text('End'),
-              ),
-              
-            ],
-          ),
-        ),
         ],
-    ),
-  );
-}
+      ),
+    );
+  }
 
   // create a yellow median
   Widget _buildLine() {

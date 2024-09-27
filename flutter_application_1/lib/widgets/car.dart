@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:ui' as ui; 
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/objects/game_state.dart';
@@ -23,6 +25,7 @@ class Car extends StatefulWidget {
 }
 
 class CarState extends State<Car> {
+  
   GameState? state;
   double cellSize;
   late Timer _timer;
@@ -78,6 +81,8 @@ class CarState extends State<Car> {
     );
   }
 }
+
+
 
 class CarPainter extends CustomPainter {
   final GameState? state;

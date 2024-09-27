@@ -6,6 +6,8 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/game.dart';
+import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_application_1/main.dart';
@@ -26,5 +28,21 @@ void main() {
     // Verify that our counter has incremented.
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
+  });
+
+  testWidgets('Points should increase when started',
+      (WidgetTester tester) async {
+    // Build the point counter
+    PointCounter pointCounter = PointCounter();
+    // Start the point counter
+    pointCounter.start();
+    // Pump the initial state
+    await tester.pumpAndSettle();
+    // Count for 3 seconds
+    await tester.pump(const Duration(seconds: 3));
+    // Get 3 points
+    expect(pointCounter.getPoints(), equals(3));
+    // Stop timer once done
+    pointCounter.stop();
   });
 }

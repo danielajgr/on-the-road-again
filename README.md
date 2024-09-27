@@ -17,3 +17,10 @@ Why the app is useful?
 This app is useful to have some fun, pass time, and arguably could be a hobby for some 
 people
 
+# Screen Shots of our App: 
+![Screenshot 2024-09-26 232924](https://github.com/user-attachments/assets/27008d07-d87a-4273-9672-feaf03c427c3)
+
+
+![Screenshot 2024-09-26 232846](https://github.com/user-attachments/assets/f2a5f1a9-f239-4f75-8e72-0bfc9ecaacb4)
+
+

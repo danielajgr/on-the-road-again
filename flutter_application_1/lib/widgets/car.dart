@@ -93,11 +93,11 @@ class CarPainter extends CustomPainter {
     final roadLineColor = Paint()
       ..color = Colors.yellow
       ..style = PaintingStyle.fill;
-
+    /*
     final obstaclePaint = Paint()
       ..color = Colors.red
       ..style = PaintingStyle.fill;
-
+    */
     final carPos = state!.carPos;
     final a = Offset(carPos.x * cellSize, carPos.y * cellSize);
     final b = Offset((carPos.x + 1) * cellSize, (carPos.y + 1) * cellSize);

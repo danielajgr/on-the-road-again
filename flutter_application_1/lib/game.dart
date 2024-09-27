@@ -20,14 +20,13 @@ class _GamePageState extends State<GamePage> {
 
   double lineOffset = 0;
   double bushOffset = 0;
-  Timer? _timer; 
+  Timer? _timer;
   static const int _carRows = 30;
   static const int _carColumns = 50;
   static const double _carCellSize = 10.0;
 
-  double _yAxis = 0.0; 
+  double _yAxis = 0.0;
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
-
 
 //median controller
   @override
@@ -39,19 +38,19 @@ class _GamePageState extends State<GamePage> {
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
           setState(() {
-            _yAxis = event.y; 
+            _yAxis = event.y;
           });
         },
       ),
     );
     _timer = Timer.periodic(const Duration(milliseconds: 75), (timer) {
-      if (mounted) { 
+      if (mounted) {
         setState(() {
           lineOffset += 10;
           bushOffset += 10;
-          
+
           if (lineOffset >= 325) {
-            lineOffset = 0; 
+            lineOffset = 0;
           }
           if (bushOffset >= 1000) {
             bushOffset = 0;
@@ -59,6 +58,9 @@ class _GamePageState extends State<GamePage> {
         });
       }
     });
+    if (gameState.obstacle?.checkHit() == true) {
+      handleGameOver();
+    }
   }
 
   //end game
@@ -74,7 +76,7 @@ class _GamePageState extends State<GamePage> {
 
   @override
   void dispose() {
-    _timer?.cancel(); 
+    _timer?.cancel();
     super.dispose();
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
@@ -184,7 +186,11 @@ class _GamePageState extends State<GamePage> {
                   },
                   child: const Text('End'),
                 ),
-                
+                // Display the points below the button
+                Text(
+                  'Point Score: $points',
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                ),
               ],
             ),
           ),
@@ -196,8 +202,8 @@ class _GamePageState extends State<GamePage> {
   // create a yellow median
   Widget _buildLine() {
     return Container(
-      width: 20, 
-      height: 100, 
+      width: 20,
+      height: 100,
       color: Colors.yellow,
     );
   }

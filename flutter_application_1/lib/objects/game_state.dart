@@ -84,7 +84,7 @@ class GameState {
   }
 
   void startObstacleMovement() {
-    obstacleTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+    obstacleTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
       moveObstacle();
       checkIfHit();
     });

@@ -19,11 +19,11 @@ people
 
 # Screen Shots of our App: 
 ![Screenshot 2024-09-26 232924](https://github.com/user-attachments/assets/27008d07-d87a-4273-9672-feaf03c427c3)
-Starting Screen
+
 
 ![Screenshot 2024-09-27 102559](https://github.com/user-attachments/assets/8557418a-ebee-4a9f-90f5-fb4d0f759384)
-Game Screen
+
 
 ![Screenshot 2024-09-26 232846](https://github.com/user-attachments/assets/f2a5f1a9-f239-4f75-8e72-0bfc9ecaacb4)
-End Screen
+
 

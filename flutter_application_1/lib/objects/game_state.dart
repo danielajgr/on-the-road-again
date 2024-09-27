@@ -8,7 +8,7 @@ class GameState {
   GameState(this.rows, this.columns, this.onGameOver) {
     carPos = math.Point<int>(columns ~/ 2, rows - 2);
     initLines();
-    createObstacles();
+    createObstacle();
     startObstacleMovement();
   }
 
@@ -18,20 +18,19 @@ class GameState {
   final VoidCallback onGameOver;
 
   List<math.Point<int>> alllines = [];
-  List<Obstacle> obstacles = [];
+  Obstacle? obstacle;
   Timer? obstacleTimer;
 
-  void createObstacles() {
-    obstacles.add(
-      Obstacle(
-          type: 'test',
-          hitbox: const Rect.fromLTWH(
-            50.0,
-            0,
-            50.0,
-            50.0,
-          ),
-          color: (Color.fromARGB(197, 255, 0, 0))),
+  void createObstacle() {
+    obstacle = Obstacle(
+      type: 'test',
+      hitbox: const Rect.fromLTWH(
+        50.0,
+        0,
+        50.0,
+        50.0,
+      ),
+      color: (Color.fromARGB(197, 255, 0, 0)),
     );
   }
 
@@ -43,45 +42,41 @@ class GameState {
     checkIfHit();
   }
 
-  void moveObstacles() {
-    for (Obstacle obstacle in obstacles) {
-      final newTop = obstacle.hitbox.top + 10.0;
+  void moveObstacle() {
+    if (obstacle != null) {
+      final newTop = obstacle!.hitbox.top + 10.0;
 
-      obstacle.hitbox = obstacle.hitbox.translate(0, 10.0);
+      obstacle!.hitbox = obstacle!.hitbox.translate(0, 10.0);
 
       if (newTop > rows * 10) {
-        // If obstacle goes off screen reset to the top
-        resetObstacles();
-        obstacle.hitbox = Rect.fromLTWH(
-          math.Random().nextDouble() * (columns * 10.0),
-          0,
-          obstacle.hitbox.width,
-          obstacle.hitbox.height,
-        );
+        resetObstacle();
       }
     }
   }
 
-  void resetObstacles() {
-    double width = 600;
-    double obstacleWidth = 50.0;
+  void resetObstacle() {
+    if (obstacle != null) {
+      //road width
+      double width = 600;
+      //obstacle width
+      double obstacleWidth = 50.0;
 
-    for (Obstacle obstacle in obstacles) {
-      obstacle.hit = false;
+      obstacle!.hit = false;
 
       // Randomly position the obstacle at the top of the road
-      double x = (math.Random().nextDouble() * (width - obstacleWidth));
-      obstacle.hitbox = Rect.fromLTWH(x, 0, obstacleWidth, obstacleWidth);
+      double x = math.Random().nextDouble() * (width - obstacleWidth);
+      obstacle!.hitbox = Rect.fromLTWH(x, 0, obstacleWidth, obstacleWidth);
     }
   }
 
   void checkIfHit() {
-    for (Obstacle obstacle in obstacles) {
+    if (obstacle != null) {
       Offset carOffset = Offset(carPos.x * 10.0, carPos.y * 10.0);
 
-      if (obstacle.hitbox.contains(carOffset)) {
-        obstacle.onCollision();
-        if (obstacle.checkHit()) {
+      // Check if car hit the obstacle
+      if (obstacle!.hitbox.contains(carOffset)) {
+        obstacle!.onCollision();
+        if (obstacle!.checkHit()) {
           onGameOver();
         }
       }
@@ -90,7 +85,7 @@ class GameState {
 
   void startObstacleMovement() {
     obstacleTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      moveObstacles();
+      moveObstacle();
       checkIfHit();
     });
   }

@@ -171,6 +171,14 @@ class _GamePageState extends State<GamePage> {
                           left: 290,
                           child: _buildLine(),
                         ),
+                        Positioned(
+                            top: gameState.obstacle?.hitbox.top,
+                            left: gameState.obstacle?.hitbox.left,
+                            child: Container(
+                              width: gameState.obstacle?.hitbox.width,
+                              height: gameState.obstacle?.hitbox.height,
+                              color: gameState.obstacle?.color,
+                            )),
                       ],
                     ),
                   ),

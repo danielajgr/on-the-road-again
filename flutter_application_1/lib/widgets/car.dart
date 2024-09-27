@@ -34,12 +34,12 @@ class CarState extends State<Car> {
   void checkIfHit() {
     Offset carOffset =
         Offset(state!.carPos.x * cellSize, state!.carPos.y * cellSize);
-    for (Obstacle obstacle in state!.obstacles) {
-      if (obstacle.hitbox.contains(carOffset)) {
-        obstacle.onCollision();
-        if (obstacle.checkHit()) {
-          gameOver();
-        }
+    Obstacle? obstacle = state?.obstacle;
+
+    if (obstacle != null && obstacle.hitbox.contains(carOffset)) {
+      obstacle.onCollision();
+      if (obstacle.checkHit()) {
+        gameOver();
       }
     }
   }
@@ -90,16 +90,12 @@ class CarPainter extends CustomPainter {
       ..color = Colors.blue
       ..style = PaintingStyle.fill;
 
-    for (Obstacle obstacle in state!.obstacles) {
-      final obstaclePaint = Paint()
-        ..color = obstacle.color
-        ..style = PaintingStyle.fill;
-
-      canvas.drawRect(obstacle.hitbox, obstaclePaint);
-    }
-
     final roadLineColor = Paint()
       ..color = Colors.yellow
+      ..style = PaintingStyle.fill;
+
+    final obstaclePaint = Paint()
+      ..color = Colors.red
       ..style = PaintingStyle.fill;
 
     final carPos = state!.carPos;

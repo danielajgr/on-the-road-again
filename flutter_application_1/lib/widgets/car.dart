@@ -85,7 +85,6 @@ class CarPainter extends CustomPainter {
 
   CarPainter(this.state, this.cellSize);
 
-  @override
   void paintCar(Canvas canvas, Size size) {
     final carPaint = Paint()
       ..color = Colors.blue

@@ -22,19 +22,17 @@ class GameState {
   Timer? obstacleTimer;
 
   void createObstacles() {
-    for (int i = 0; i < 5; i++) {
-      obstacles.add(
-        Obstacle(
-            type: 'test',
-            hitbox: Rect.fromLTWH(
-              50.0 * i,
-              0,
-              50.0,
-              50.0,
-            ),
-            color: (Color.fromARGB(197, 255, 0, 0))),
-      );
-    }
+    obstacles.add(
+      Obstacle(
+          type: 'test',
+          hitbox: const Rect.fromLTWH(
+            50.0,
+            0,
+            50.0,
+            50.0,
+          ),
+          color: (Color.fromARGB(197, 255, 0, 0))),
+    );
   }
 
   void moveCar(int amount) {
@@ -47,14 +45,12 @@ class GameState {
 
   void moveObstacles() {
     for (Obstacle obstacle in obstacles) {
-      final newTop =
-          obstacle.hitbox.top + 10.0; // Move down 10 units every step
+      final newTop = obstacle.hitbox.top + 10.0;
 
-      obstacle.hitbox =
-          obstacle.hitbox.translate(0, 10.0); // Move hbox down 10 units
+      obstacle.hitbox = obstacle.hitbox.translate(0, 10.0);
 
       if (newTop > rows * 10) {
-        // If obstacle goes off-screen reset to the top, fix the reset
+        // If obstacle goes off screen reset to the top
         resetObstacles();
         obstacle.hitbox = Rect.fromLTWH(
           math.Random().nextDouble() * (columns * 10.0),
@@ -93,7 +89,7 @@ class GameState {
   }
 
   void startObstacleMovement() {
-    obstacleTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+    obstacleTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       moveObstacles();
       checkIfHit();
     });

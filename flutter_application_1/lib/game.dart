@@ -55,7 +55,6 @@ class _GamePageState extends State<GamePage> {
           if (bushOffset >= 1000) {
             bushOffset = 0;
           }
-          
         });
       }
     });
@@ -93,126 +92,117 @@ class _GamePageState extends State<GamePage> {
 //game scene
   @override
   Widget build(BuildContext context) {
-    startPoints();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Game Page'),
-        automaticallyImplyLeading: false, // get rid of back button
-      ),
       body: Stack(
         children: [
           Container(color: Colors.green),
-
           Positioned(
             top: bushOffset - 600,
-            left: 40, 
-            child: Circle(), 
+            left: 40,
+            child: Circle(),
           ),
           Positioned(
             top: bushOffset - 1200,
-            left: 40, 
-            child: Circle(), 
+            left: 40,
+            child: Circle(),
           ),
           Positioned(
             top: bushOffset - 600,
-            left: 800, 
-            child: Circle(), 
+            left: 800,
+            child: Circle(),
           ),
           Positioned(
             top: bushOffset - 1200,
-            left: 800, 
-            child: Circle(), 
+            left: 800,
+            child: Circle(),
           ),
-
-
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // road
-              Expanded(
-                child: Container(
-                  width: 600, 
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 68, 68, 68), 
-                    //add borders
-                    border: Border(
-                      left: BorderSide(width: 10.0, color: Colors.black),
-                      right: BorderSide(width: 10.0, color: Colors.black),
-                      bottom: BorderSide(width: 10.0, color: Colors.black),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // road
+                Expanded(
+                  child: Container(
+                    width: 600,
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 68, 68, 68),
+                      //add borders
+                      border: Border(
+                        left: BorderSide(width: 10.0, color: Colors.black),
+                        right: BorderSide(width: 10.0, color: Colors.black),
+                        bottom: BorderSide(width: 10.0, color: Colors.black),
+                      ),
+                    ),
+                    //sort out brackets and parentheses
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: _carRows * _carCellSize,
+                          width: _carColumns * _carCellSize,
+                          child: Car(
+                            rows: _carRows,
+                            columns: _carColumns,
+                            cellSize: _carCellSize,
+                            yAxis: _yAxis,
+                          ),
+                        ),
+                        Positioned(
+                          top: lineOffset,
+                          left: 290, //
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 210,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 400,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 600,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                        Positioned(
+                          top: lineOffset - 800,
+                          left: 290,
+                          child: _buildLine(),
+                        ),
+                      ],
                     ),
                   ),
-                  //sort out brackets and parentheses
-                  child: Stack(
-                    children: [SizedBox(
-            height: _carRows * _carCellSize,
-            width: _carColumns * _carCellSize,
-            child: Car(
-              rows: _carRows,
-              columns: _carColumns,
-              cellSize: _carCellSize,
-              yAxis: _yAxis, 
+                ),
+                const SizedBox(height: 20),
+                //test button to go to end.dart
+                ElevatedButton(
+                  //handle obstacle
+                  onPressed: () {
+                    handleGameOver();
+                  },
+                  child: const Text('End'),
+                ),
+                const SizedBox(height: 20),
+                // Display the points below the button
+                Text(
+                  'Point Score: $points',
+                  style: const TextStyle(fontSize: 24, color: Colors.white),
+                ),
+              ],
             ),
           ),
-                      Positioned(
-                        top: lineOffset,
-                        left: 290, // 
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 210,
-                        left: 290,
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 400,
-                        left: 290, 
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 600,
-                        left: 290, 
-                        child: _buildLine(),
-                      ),
-                      Positioned(
-                        top: lineOffset - 800,
-                        left: 290, 
-                        child: _buildLine(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              //test button to go to end.dart
-              ElevatedButton(
-                /*
-                if obstacle.checkHit() = true then end, if not then continue
-                */
-                onPressed: () {
-                  handleGameOver();
-                },
-                child: const Text('End'),
-              ),
-              const SizedBox(height: 20),
-              // Display the points below the button
-              Text(
-                'Point Score: $points',
-                style: const TextStyle(fontSize: 24, color: Colors.white),
-              ),
-            ],
-          ),
-        ),
         ],
-    ),
-  );
-}
+      ),
+    );
+  }
 
   // create a yellow median
   Widget _buildLine() {
     return Container(
-      width: 20, 
-      height: 100, 
+      width: 20,
+      height: 100,
       color: Colors.yellow,
     );
   }

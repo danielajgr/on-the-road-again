@@ -7,10 +7,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/game.dart';
+import 'package:flutter_application_1/objects/game_state.dart';
+import 'package:flutter_application_1/widgets/car.dart';
 import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_application_1/main.dart';
+import 'dart:math' as math;
+
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -45,4 +49,22 @@ void main() {
     // Stop timer once done
     pointCounter.stop();
   });
+
+  testWidgets('Tilting left moves car to the left when landscape',
+    (WidgetTester tester) async {
+    GameState gameState = GameState(30, 50, (){});
+    gameState.cancelTimer();
+    expect(gameState.carPos.x, 25);
+      gameState.moveCar(-1);
+      expect(gameState.carPos.x, 24);
+    });
+
+    testWidgets('Tilting right moves car to the right when landscape',
+    (WidgetTester tester) async {
+    GameState gameState = GameState(30, 50, (){});
+    gameState.cancelTimer();
+    expect(gameState.carPos.x, 25);
+      gameState.moveCar(1);
+      expect(gameState.carPos.x, 26);
+    });
 }

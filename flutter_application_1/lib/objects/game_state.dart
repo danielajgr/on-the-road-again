@@ -34,6 +34,10 @@ class GameState {
     );
   }
 
+  void cancelTimer() {
+    obstacleTimer?.cancel();
+  }
+
   void moveCar(int amount) {
     final newPosx = carPos.x + amount;
     if (newPosx >= 0 && newPosx < columns) {

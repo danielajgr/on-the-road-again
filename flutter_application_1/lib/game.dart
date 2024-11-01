@@ -38,7 +38,6 @@ class _GamePageState extends State<GamePage> {
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
           setState(() {
-            print("Setting state of GamePage");
             _yAxis = event.y;
           });
         },
@@ -64,10 +63,8 @@ class _GamePageState extends State<GamePage> {
   //end game
   void handleGameOver() {
     pointCounter.stop();
-    if(mounted) {
+    if (mounted) {
       Navigator.pushNamed(context, '/end', arguments: pointCounter);
-    } else {
-      print("GamePage wasn't mounted when handleGameOver was called? Did we forget to stop a timer?");
     }
     cleanup();
   }
@@ -95,7 +92,6 @@ class _GamePageState extends State<GamePage> {
 //game scene
   @override
   Widget build(BuildContext context) {
-    print("Rebuilding GamePage");
     return Scaffold(
       body: Stack(
         children: [

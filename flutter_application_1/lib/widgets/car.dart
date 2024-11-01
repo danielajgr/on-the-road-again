@@ -33,11 +33,8 @@ class CarState extends State<Car> {
   void initState() {
     super.initState();
 
-
-    print("Creating a new timer!");
     _timer = Timer.periodic(const Duration(milliseconds: 200), (_) {
       setState(() {
-        print("Moving car from within car widget!");
         _moveCar();
       });
     });

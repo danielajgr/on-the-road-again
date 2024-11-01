@@ -76,8 +76,6 @@ class GameState {
   }
 
   void checkIfHit() {
-    //TODO(colin): print out distance to get a feel for how badly this is going
-    print("Car x: ${carPos.x*10.0}, Obstacle x: ${obstacle?.hitbox.left}");
     if (obstacle != null) {
       Offset carOffset = Offset(carPos.x * 10.0, carPos.y * 10.0);
 
@@ -89,10 +87,8 @@ class GameState {
   }
 
   void startObstacleMovement() {
-    print("Starting obstacle movement...");
     obstacleTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
       moveObstacle();
-      print("Checking obstacle move");
       checkIfHit();
     });
   }

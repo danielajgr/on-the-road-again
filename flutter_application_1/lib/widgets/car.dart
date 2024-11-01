@@ -23,38 +23,11 @@ class Car extends StatefulWidget {
       : super(key: key);
 
   @override
-  // State<StatefulWidget> createState() => CarState(rows, columns, cellSize);
   State<StatefulWidget> createState() => CarState();
 }
 
 class CarState extends State<Car> {
-  
-  // GameState? state;
-  // double cellSize;
   late Timer _timer;
-
-  // CarState(int rows, int columns, this.cellSize) {
-  //   print("Rebuilding car thing!");
-  //   // state = GameState(rows, columns, gameOver);
-  //   state = GameState(rows, columns, () {});
-  // }
-
-  // void checkIfHit() {
-  //   Offset carOffset =
-  //       Offset(state!.carPos.x * cellSize, state!.carPos.y * cellSize);
-  //   Obstacle? obstacle = state?.obstacle;
-  //
-  //   if (obstacle != null && obstacle.hitbox.contains(carOffset)) {
-  //     obstacle.onCollision();
-  //     if (obstacle.checkHit()) {
-  //       gameOver();
-  //     }
-  //   }
-  // }
-  //
-  // void gameOver() {
-  //   Navigator.pushNamed(context, '/end');
-  // }
 
   @override
   void initState() {
@@ -80,7 +53,6 @@ class CarState extends State<Car> {
   void _moveCar() {
     int direction = -widget.yAxis.sign.toInt();
     widget.state.moveCar(direction);
-    // checkIfHit();
   }
 
   @override

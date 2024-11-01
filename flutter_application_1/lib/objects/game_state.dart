@@ -20,6 +20,7 @@ class GameState {
   List<math.Point<int>> alllines = [];
   Obstacle? obstacle;
   Timer? obstacleTimer;
+  Timer? carTimer;
 
   void createObstacle() {
     obstacle = Obstacle(
@@ -34,8 +35,9 @@ class GameState {
     );
   }
 
-  void cancelTimer() {
+  void cancelTimers() {
     obstacleTimer?.cancel();
+    carTimer?.cancel();
   }
 
   void moveCar(int amount) {
@@ -79,10 +81,7 @@ class GameState {
 
       // Check if car hit the obstacle
       if (obstacle!.hitbox.contains(carOffset)) {
-        obstacle!.onCollision();
-        if (obstacle!.checkHit()) {
-          onGameOver();
-        }
+        onGameOver();
       }
     }
   }
@@ -92,14 +91,6 @@ class GameState {
       moveObstacle();
       checkIfHit();
     });
-  }
-
-  void step(math.Point<int>? newDirection) {
-    if (newDirection != null) {
-      moveCar(newDirection.x);
-    }
-    moveLines();
-    checkIfHit();
   }
 
   void initLines() {

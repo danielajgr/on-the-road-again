@@ -59,9 +59,6 @@ class _GamePageState extends State<GamePage> {
         });
       }
     });
-    // if (gameState.obstacle?.checkHit() == true) {
-    //   handleGameOver();
-    // }
   }
 
   //end game

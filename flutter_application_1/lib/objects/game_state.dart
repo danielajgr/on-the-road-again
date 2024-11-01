@@ -84,10 +84,6 @@ class GameState {
       // Check if car hit the obstacle
       if (obstacle!.hitbox.contains(carOffset)) {
         onGameOver();
-        // obstacle!.onCollision();
-        // if (obstacle!.checkHit()) {
-        //   onGameOver();
-        // }
       }
     }
   }

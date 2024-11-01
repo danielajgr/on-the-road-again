@@ -38,6 +38,7 @@ class _GamePageState extends State<GamePage> {
       accelerometerEvents.listen(
         (AccelerometerEvent event) {
           setState(() {
+            print("Setting state of GamePage");
             _yAxis = event.y;
           });
         },
@@ -58,15 +59,20 @@ class _GamePageState extends State<GamePage> {
         });
       }
     });
-    if (gameState.obstacle?.checkHit() == true) {
-      handleGameOver();
-    }
+    // if (gameState.obstacle?.checkHit() == true) {
+    //   handleGameOver();
+    // }
   }
 
   //end game
   void handleGameOver() {
     pointCounter.stop();
-    Navigator.pushNamed(context, '/end', arguments: pointCounter);
+    if(mounted) {
+      Navigator.pushNamed(context, '/end', arguments: pointCounter);
+    } else {
+      print("GamePage wasn't mounted when handleGameOver was called? Did we forget to stop a timer?");
+    }
+    cleanup();
   }
 
   void startPoints() {
@@ -74,18 +80,25 @@ class _GamePageState extends State<GamePage> {
     pointCounter.start();
   }
 
-  @override
-  void dispose() {
+  void cleanup() {
+    gameState.cancelTimers();
+
     _timer?.cancel();
-    super.dispose();
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
     }
   }
 
+  @override
+  void dispose() {
+    cleanup();
+    super.dispose();
+  }
+
 //game scene
   @override
   Widget build(BuildContext context) {
+    print("Rebuilding GamePage");
     return Scaffold(
       body: Stack(
         children: [
@@ -134,6 +147,7 @@ class _GamePageState extends State<GamePage> {
                           height: _carRows * _carCellSize,
                           width: _carColumns * _carCellSize,
                           child: Car(
+                            state: gameState,
                             rows: _carRows,
                             columns: _carColumns,
                             cellSize: _carCellSize,

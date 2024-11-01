@@ -53,7 +53,7 @@ void main() {
   testWidgets('Tilting left moves car to the left when landscape',
     (WidgetTester tester) async {
     GameState gameState = GameState(30, 50, (){});
-    gameState.cancelTimer();
+    gameState.cancelTimers();
     expect(gameState.carPos.x, 25);
       gameState.moveCar(-1);
       expect(gameState.carPos.x, 24);
@@ -62,7 +62,7 @@ void main() {
     testWidgets('Tilting right moves car to the right when landscape',
     (WidgetTester tester) async {
     GameState gameState = GameState(30, 50, (){});
-    gameState.cancelTimer();
+    gameState.cancelTimers();
     expect(gameState.carPos.x, 25);
       gameState.moveCar(1);
       expect(gameState.carPos.x, 26);

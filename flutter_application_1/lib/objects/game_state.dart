@@ -101,14 +101,6 @@ class GameState {
     });
   }
 
-  // void step(math.Point<int>? newDirection) {
-  //   if (newDirection != null) {
-  //     moveCar(newDirection.x);
-  //   }
-  //   moveLines();
-  //   checkIfHit();
-  // }
-
   void initLines() {
     for (int i = 0; i < rows; i += 4) {
       alllines.add(math.Point<int>(columns ~/ 2, i));

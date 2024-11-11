@@ -3,10 +3,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/obstacle.dart';
+import 'useful_things.dart';
 
 class GameState {
   GameState(this.rows, this.columns, this.onGameOver) {
-    carPos = math.Point<int>(columns ~/ 2, rows - 2);
+    carPos = doublePoint(x: (columns ~/ 2).toDouble(), y: rows - 2);
     initLines();
     createObstacle();
     startObstacleMovement();
@@ -14,7 +15,8 @@ class GameState {
 
   int rows;
   int columns;
-  late math.Point<int> carPos;
+  double roadSpeed = 10;
+  late doublePoint carPos;
   final VoidCallback onGameOver;
 
   List<math.Point<int>> alllines = [];
@@ -40,10 +42,11 @@ class GameState {
     carTimer?.cancel();
   }
 
-  void moveCar(int amount) {
-    final newPosx = carPos.x + amount;
+  void moveCar(int amount, int deltaT) {
+    print(amount * (deltaT/1000));
+    final newPosx = carPos.x + amount * (deltaT/1000);
     if (newPosx >= 0 && newPosx < columns) {
-      carPos = math.Point<int>(newPosx, carPos.y);
+      carPos = doublePoint(x: newPosx, y: carPos.y);
     }
     checkIfHit();
   }
@@ -93,16 +96,19 @@ class GameState {
     });
   }
 
-  void initLines() {
-    for (int i = 0; i < rows; i += 4) {
+  void spawnLine() {
+    alllines.add(doublePoint(x:290, y: -200));
       alllines.add(math.Point<int>(columns ~/ 2, i));
     }
   }
 
   void moveLines() {
     for (int i = 0; i < alllines.length; i++) {
-      alllines[i] = alllines[i] =
-          math.Point<int>((alllines[i].x + 1) % rows, alllines[i].y);
+      double newY = (alllines[i].y + roadSpeed).toDouble();
+      if(newY > 350)
+        alllines.removeAt(i);
+      else
+        alllines[i] = doublePoint(x: alllines[i].x, y : newY);
     }
   }
 }

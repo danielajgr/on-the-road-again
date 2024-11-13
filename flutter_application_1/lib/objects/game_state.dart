@@ -56,7 +56,7 @@ class GameState {
       Obstacle obstacle = obstacles[i];
       final newTop = obstacle.hitbox.top + 10.0;
 
-      obstacle.hitbox = obstacle.hitbox.translate(0, 10.0);
+      obstacle.hitbox = obstacle.hitbox.translate(0, roadSpeed);
 
       if (newTop > rows * 10) {
         resetObstacle(obstacle);

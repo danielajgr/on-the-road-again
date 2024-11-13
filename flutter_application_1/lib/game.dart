@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/objects/game_state.dart';
 import 'package:flutter_application_1/widgets/car.dart';
+import 'package:flutter_application_1/widgets/obstacle.dart';
 import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'dart:async';
-
+import 'objects/useful_things.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class GamePage extends StatefulWidget {
@@ -21,6 +22,8 @@ class _GamePageState extends State<GamePage> {
   double lineOffset = 0;
   double bushOffset = 0;
   Timer? _timer;
+  late Timer _lineSpawnTimer;
+  late Timer _obSpawnTimer;
   static const int _carRows = 30;
   static const int _carColumns = 50;
   static const double _carCellSize = 10.0;
@@ -43,15 +46,21 @@ class _GamePageState extends State<GamePage> {
         },
       ),
     );
+    _obSpawnTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      setState(() {
+        gameState.createObstacle();
+      });
+    });
+    _lineSpawnTimer = Timer.periodic(const Duration(milliseconds: 1500), (timer) {
+      setState(() {
+        gameState.spawnLine();
+      });
+    });
     _timer = Timer.periodic(const Duration(milliseconds: 75), (timer) {
       if (mounted) {
         setState(() {
-          lineOffset += 10;
+          gameState.moveLines();
           bushOffset += 10;
-
-          if (lineOffset >= 325) {
-            lineOffset = 0;
-          }
           if (bushOffset >= 1000) {
             bushOffset = 0;
           }
@@ -76,7 +85,8 @@ class _GamePageState extends State<GamePage> {
 
   void cleanup() {
     gameState.cancelTimers();
-
+    _lineSpawnTimer.cancel();
+    _obSpawnTimer.cancel();
     _timer?.cancel();
     for (final subscription in _streamSubscriptions) {
       subscription.cancel();
@@ -87,6 +97,22 @@ class _GamePageState extends State<GamePage> {
   void dispose() {
     cleanup();
     super.dispose();
+  }
+
+  List<Widget> getLines() {
+    List<Widget> finalList = [];
+    List<doublePoint> points = gameState.alllines;
+    for(doublePoint point in points) {
+      finalList.add(                        
+    Positioned(
+          top: point.y,
+          left: point.x, //
+          child: _buildLine(),
+        ),
+      );
+    }
+    
+    return finalList;
   }
 
 //game scene
@@ -147,39 +173,42 @@ class _GamePageState extends State<GamePage> {
                             yAxis: _yAxis,
                           ),
                         ),
-                        Positioned(
-                          top: lineOffset,
-                          left: 290, //
-                          child: _buildLine(),
-                        ),
-                        Positioned(
-                          top: lineOffset - 210,
-                          left: 290,
-                          child: _buildLine(),
-                        ),
-                        Positioned(
-                          top: lineOffset - 400,
-                          left: 290,
-                          child: _buildLine(),
-                        ),
-                        Positioned(
-                          top: lineOffset - 600,
-                          left: 290,
-                          child: _buildLine(),
-                        ),
-                        Positioned(
-                          top: lineOffset - 800,
-                          left: 290,
-                          child: _buildLine(),
-                        ),
-                        Positioned(
-                            top: gameState.obstacle?.hitbox.top,
-                            left: gameState.obstacle?.hitbox.left,
-                            child: Container(
-                              width: gameState.obstacle?.hitbox.width,
-                              height: gameState.obstacle?.hitbox.height,
-                              color: gameState.obstacle?.color,
-                            )),
+                        for(Widget line in getLines())
+                          line,
+                        // Positioned(
+                        //   top: lineOffset,
+                        //   left: 290, //
+                        //   child: _buildLine(),
+                        // ),
+                        // Positioned(
+                        //   top: lineOffset - 210,
+                        //   left: 290,
+                        //   child: _buildLine(),
+                        // ),
+                        // Positioned(
+                        //   top: lineOffset - 400,
+                        //   left: 290,
+                        //   child: _buildLine(),
+                        // ),
+                        // Positioned(
+                        //   top: lineOffset - 600,
+                        //   left: 290,
+                        //   child: _buildLine(),
+                        // ),
+                        // Positioned(
+                        //   top: lineOffset - 800,
+                        //   left: 290,
+                        //   child: _buildLine(),
+                        // ),
+                        for(Obstacle obstacle in gameState.obstacles)
+                          Positioned(
+                              top: obstacle.hitbox.top,
+                              left: obstacle.hitbox.left,
+                              child: Container(
+                                width: obstacle.hitbox.width,
+                                height: obstacle.hitbox.height,
+                                color: obstacle.color,
+                              )),
                       ],
                     ),
                   ),

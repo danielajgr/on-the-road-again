@@ -8,7 +8,7 @@ import 'useful_things.dart';
 class GameState {
   GameState(this.rows, this.columns, this.onGameOver) {
     carPos = doublePoint(x: (columns ~/ 2).toDouble(), y: rows - 2);
-    initLines();
+    spawnLine();
     createObstacle();
     startObstacleMovement();
   }
@@ -19,7 +19,7 @@ class GameState {
   late doublePoint carPos;
   final VoidCallback onGameOver;
 
-  List<math.Point<int>> alllines = [];
+  List<doublePoint> alllines = [];
   Obstacle? obstacle;
   Timer? obstacleTimer;
   Timer? carTimer;
@@ -98,8 +98,6 @@ class GameState {
 
   void spawnLine() {
     alllines.add(doublePoint(x:290, y: -200));
-      alllines.add(math.Point<int>(columns ~/ 2, i));
-    }
   }
 
   void moveLines() {

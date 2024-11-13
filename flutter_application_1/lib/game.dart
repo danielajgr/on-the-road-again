@@ -200,7 +200,7 @@ class _GamePageState extends State<GamePage> {
                         //   left: 290,
                         //   child: _buildLine(),
                         // ),
-                        for(Obstacle obstacle in gameState.obstacles)
+                        for(Obstacle obstacle in [gameState.obstacle!])
                           Positioned(
                               top: obstacle.hitbox.top,
                               left: obstacle.hitbox.left,

@@ -6,7 +6,7 @@ import 'package:flutter_application_1/widgets/obstacle.dart';
 
 class GameState {
   GameState(this.rows, this.columns, this.onGameOver) {
-    carPos = math.Point<int>(columns ~/ 2, rows - 2);
+    carPos = math.Point<int>(columns ~/ 2, rows - 6);
     initLines();
     createObstacle();
     startObstacleMovement();
@@ -31,7 +31,7 @@ class GameState {
         50.0,
         50.0,
       ),
-      color: (Color.fromARGB(197, 255, 0, 0)),
+      color: (Colors.blue),
     );
   }
 

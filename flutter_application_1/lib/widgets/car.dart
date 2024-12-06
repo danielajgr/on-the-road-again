@@ -9,6 +9,7 @@ import 'package:flutter_application_1/widgets/obstacle.dart';
 
 class Car extends StatefulWidget {
   final int rows;
+  final int speed = 10;
   final int columns;
   final double cellSize;
   final double yAxis;
@@ -34,15 +35,21 @@ class CarState extends State<Car> {
   late Timer _timer;
   late ui.Image carImage;
   bool isImageloaded = false;
- 
+  late DateTime currentTime;
+  late int lastCall;
+
   @override
   void initState() {
     super.initState();
-    init();
-    
-    _timer = Timer.periodic(const Duration(milliseconds: 200), (_) {
+    currentTime = DateTime.now();
+    lastCall = currentTime.millisecondsSinceEpoch;
+    _timer = Timer.periodic(const Duration(milliseconds: 50), (Timer timer) {
       setState(() {
-        _moveCar();
+        print("Car.dart car pos: ${widget.state.carPos}");
+        currentTime = DateTime.now();
+        int deltaT = currentTime.millisecondsSinceEpoch-lastCall;
+        lastCall = currentTime.millisecondsSinceEpoch;
+        _moveCar(deltaT);
       });
     });
     widget.state.carTimer = _timer;
@@ -69,9 +76,9 @@ class CarState extends State<Car> {
     super.dispose();
   }
 
-  void _moveCar() {
-    int direction = -widget.yAxis.sign.toInt();
-    widget.state.moveCar(direction);
+  void _moveCar(int deltaT) {
+    int direction = (-widget.yAxis.sign * widget.speed).toInt();
+    widget.state.moveCar(direction, deltaT);
   }
 
   Widget _buildImage(){

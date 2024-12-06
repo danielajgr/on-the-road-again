@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'game.dart';
 import 'end.dart'; // Import the EndPage
 import 'package:sensors_plus/sensors_plus.dart';
 
 // Found landscape orientation here: https://www.geeksforgeeks.org/flutter-managing-device-orientation/
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+  ]);
   runApp(const MyApp());
 }
 

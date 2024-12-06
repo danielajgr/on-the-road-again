@@ -7,6 +7,7 @@ import 'useful_things.dart';
 
 class GameState {
   GameState(this.rows, this.columns, this.onGameOver) {
+    //carPos = math.Point<int>(columns ~/ 2, rows - 6);
     carPos = doublePoint(x: (columns ~/ 2).toDouble(), y: rows - 2);
     spawnLine();
     createObstacle();
@@ -25,16 +26,16 @@ class GameState {
   Timer? carTimer;
 
   void createObstacle() {
-    obstacles.add(Obstacle(
-        type: 'test',
-        hitbox: const Rect.fromLTWH(
-          50.0,
-          0,
-          50.0,
-          50.0,
-        ),
-        color: (Color.fromARGB(197, 255, 0, 0)),
-    ));
+    obstacle = Obstacle(
+      type: 'test',
+      hitbox: const Rect.fromLTWH(
+        50.0,
+        0,
+        50.0,
+        50.0,
+      ),
+      color: (Colors.blue),
+    );
   }
 
   void cancelTimers() {
@@ -79,11 +80,13 @@ class GameState {
 
   void checkIfHit() {
     for(Obstacle obstacle in obstacles) {
-      Offset carOffset = Offset(carPos.x * 10, carPos.y * 10);
+      Offset carOffset = Offset(carPos.x * 10.0, carPos.y * 10.0);
+      
+      Offset moreCarOffset = Offset(carPos.x * 11.0 + 1, carPos.y * 10.0);
       print("Car offset: $carOffset");
 
       // Check if car hit the obstacle
-      if (obstacle.hitbox.contains(carOffset) || obstacle.hitbox.contains(Offset((carPos.x + 1) * 10, (carPos.y + 10) * 10))) {
+      if (obstacle!.hitbox.contains(carOffset) || obstacle!.hitbox.contains(moreCarOffset)) {
         onGameOver();
       }
     }

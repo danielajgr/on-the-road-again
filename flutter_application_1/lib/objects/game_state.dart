@@ -7,8 +7,7 @@ import 'useful_things.dart';
 
 class GameState {
   GameState(this.rows, this.columns, this.onGameOver) {
-    //carPos = math.Point<int>(columns ~/ 2, rows - 6);
-    carPos = doublePoint(x: (columns ~/ 2).toDouble(), y: rows - 2);
+    carPos = doublePoint(x: (columns ~/ 2).toDouble(), y: rows - 6);
     spawnLine();
     createObstacle();
     startObstacleMovement();
@@ -26,7 +25,7 @@ class GameState {
   Timer? carTimer;
 
   void createObstacle() {
-    obstacle = Obstacle(
+    obstacles.add(Obstacle(
       type: 'test',
       hitbox: const Rect.fromLTWH(
         50.0,
@@ -35,7 +34,7 @@ class GameState {
         50.0,
       ),
       color: (Colors.blue),
-    );
+    ));
   }
 
   void cancelTimers() {

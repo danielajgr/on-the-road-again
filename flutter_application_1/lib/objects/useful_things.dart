@@ -3,4 +3,9 @@ class doublePoint {
 
   double x;
   double y;
+
+  @override
+  String toString() {
+    return "($x, $y)";
+  }
 }

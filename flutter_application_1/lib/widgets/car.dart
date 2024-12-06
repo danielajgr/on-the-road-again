@@ -39,6 +39,7 @@ class CarState extends State<Car> {
     lastCall = currentTime.millisecondsSinceEpoch;
     _timer = Timer.periodic(const Duration(milliseconds: 50), (Timer timer) {
       setState(() {
+        print("Car.dart car pos: ${widget.state.carPos}");
         currentTime = DateTime.now();
         int deltaT = currentTime.millisecondsSinceEpoch-lastCall;
         lastCall = currentTime.millisecondsSinceEpoch;

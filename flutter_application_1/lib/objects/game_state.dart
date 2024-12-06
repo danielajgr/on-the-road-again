@@ -48,16 +48,17 @@ class GameState {
     if (newPosx >= 0 && newPosx < columns) {
       carPos = doublePoint(x: newPosx, y: carPos.y);
     }
+    print("Game_State.dart car pos: ${carPos}");
     checkIfHit();
   }
 
   void moveObstacles() {
     for(int i = 0; i < obstacles.length; i++) {
       Obstacle obstacle = obstacles[i];
-      final newTop = obstacle.hitbox.top + 10.0;
+      final newTop = obstacle.hitbox.top + roadSpeed;
 
       obstacle.hitbox = obstacle.hitbox.translate(0, roadSpeed);
-
+      checkIfHit();
       if (newTop > rows * 10) {
         resetObstacle(obstacle);
       }
@@ -78,10 +79,11 @@ class GameState {
 
   void checkIfHit() {
     for(Obstacle obstacle in obstacles) {
-      Offset carOffset = Offset(carPos.x * 10.0, carPos.x * 10.0);
+      Offset carOffset = Offset(carPos.x * 10, carPos.y * 10);
+      print("Car offset: $carOffset");
 
       // Check if car hit the obstacle
-      if (obstacle.hitbox.contains(carOffset)) {
+      if (obstacle.hitbox.contains(carOffset) || obstacle.hitbox.contains(Offset((carPos.x + 1) * 10, (carPos.y + 10) * 10))) {
         onGameOver();
       }
     }

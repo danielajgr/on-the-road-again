@@ -41,6 +41,7 @@ class CarState extends State<Car> {
   @override
   void initState() {
     super.initState();
+    init();
     currentTime = DateTime.now();
     lastCall = currentTime.millisecondsSinceEpoch;
     _timer = Timer.periodic(const Duration(milliseconds: 50), (Timer timer) {
@@ -61,6 +62,7 @@ class CarState extends State<Car> {
 
   Future<ui.Image> loadImage(Uint8List img) async {
     final Completer<ui.Image> completer = new Completer();
+    print("Attempting image load");
     ui.decodeImageFromList(img, (ui.Image img) {
       setState(() {
         isImageloaded = true;

@@ -78,9 +78,11 @@ class GameState {
   void checkIfHit() {
     if (obstacle != null) {
       Offset carOffset = Offset(carPos.x * 10.0, carPos.y * 10.0);
+      
+      Offset moreCarOffset = Offset(carPos.x * 11.0 + 1, carPos.y * 10.0);
 
       // Check if car hit the obstacle
-      if (obstacle!.hitbox.contains(carOffset)) {
+      if (obstacle!.hitbox.contains(carOffset) || obstacle!.hitbox.contains(moreCarOffset)) {
         onGameOver();
       }
     }

@@ -135,7 +135,7 @@ class CarPainter extends CustomPainter {
 
     final carPos = state!.carPos;
     final a = Offset(carPos.x * cellSize, (carPos.y) * cellSize);
-    final b = Offset((carPos.x + 5) * cellSize, (carPos.y + 7) * cellSize);
+    final b = Offset((carPos.x + 4) * cellSize, (carPos.y + 6) * cellSize);
     canvas.drawImageRect(carImg, Rect.fromLTRB(600, 250, 1410, 1630), Rect.fromPoints(a, b), carPaint);
     
     //canvas.drawRect(Rect.fromPoints(a, b), carPaint);

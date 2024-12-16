@@ -6,7 +6,7 @@ import 'package:flutter_application_1/widgets/pointCounter.dart';
 import 'dart:async';
 import 'objects/useful_things.dart';
 import 'package:sensors_plus/sensors_plus.dart';
-
+import 'package:audioplayers/audioplayers.dart';
 class GamePage extends StatefulWidget {
   const GamePage({Key? key}) : super(key: key);
 
@@ -30,11 +30,15 @@ class _GamePageState extends State<GamePage> {
 
   double _yAxis = 0.0;
   final _streamSubscriptions = <StreamSubscription<dynamic>>[];
+  late AudioPlayer _audioPlayer;
 
 //median controller
   @override
   void initState() {
     super.initState();
+    _audioPlayer = AudioPlayer();
+    startBackgroundMusic();
+
     startPoints();
     gameState = GameState(30, 50, handleGameOver);
     _streamSubscriptions.add(
@@ -72,6 +76,7 @@ class _GamePageState extends State<GamePage> {
   //end game
   void handleGameOver() {
     pointCounter.stop();
+    _audioPlayer.stop();
     if (mounted) {
       Navigator.pushNamed(context, '/end', arguments: pointCounter);
     }
@@ -82,7 +87,10 @@ class _GamePageState extends State<GamePage> {
     pointCounter.reset();
     pointCounter.start();
   }
-
+  Future<void> startBackgroundMusic() async {
+    await _audioPlayer.setReleaseMode(ReleaseMode.loop);
+    await _audioPlayer.play(AssetSource('audio/background_music.mp3'));
+  }
   void cleanup() {
     gameState.cancelTimers();
     _lineSpawnTimer.cancel();
@@ -95,6 +103,7 @@ class _GamePageState extends State<GamePage> {
 
   @override
   void dispose() {
+    _audioPlayer.dispose();
     cleanup();
     super.dispose();
   }
